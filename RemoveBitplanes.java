@@ -1,8 +1,4 @@
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import javax.imageio.ImageIO;
+
 import java.util.Scanner;
 
 public class RemoveBitplanes {
@@ -16,29 +12,6 @@ public class RemoveBitplanes {
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
         this.imagePixelValues = imagePixelValues;
-    }
-    
-    
-    public void outputImageFile(int[][] processedImagePixelValues) {
-        BufferedImage outputImage = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_BYTE_GRAY);
-
-        //set the pixel values in the BufferedImage
-        for (int y = 0; y < imageHeight; y++) {
-            for (int x = 0; x < imageWidth; x++) {
-                int pixelValue = processedImagePixelValues[y][x];
-                int grayColor = (pixelValue << 16) | (pixelValue << 8) | pixelValue;
-                outputImage.setRGB(x, y, grayColor);
-            }
-        }
-
-        //save the BufferedImage as a JPG file
-        File outputFile = new File("output.jpg");
-        try {
-            ImageIO.write(outputImage, "jpg", outputFile);
-            System.out.println("JPEG image created successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public int[][] applyBoxFilter(int[][] originalArr) {
@@ -103,7 +76,7 @@ public class RemoveBitplanes {
     }
     
 
-    public void removeBitplanes() {
+    public int[][] removeBitplanes() {
 
         String[][] binaryValues = new String[imageHeight][imageWidth];
         binaryValues = convertToBinary();
@@ -136,6 +109,6 @@ public class RemoveBitplanes {
             }
         }
 
-        outputImageFile(finalImageValues);
+        return finalImageValues;
     }
 }

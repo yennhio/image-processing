@@ -1,8 +1,4 @@
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import javax.imageio.ImageIO;
+
 
 public class Laplacian {
 
@@ -15,28 +11,6 @@ public class Laplacian {
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
         this.imagePixelValues = imagePixelValues;
-    }
-    
-    public void outputImageFile(int[][] processedImagePixelValues) {
-        BufferedImage outputImage = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_BYTE_GRAY);
-
-        // Set the pixel values in the BufferedImage
-        for (int y = 0; y < imageHeight; y++) {
-            for (int x = 0; x < imageWidth; x++) {
-                int pixelValue = processedImagePixelValues[y][x];
-                int grayColor = (pixelValue << 16) | (pixelValue << 8) | pixelValue;
-                outputImage.setRGB(x, y, grayColor);
-            }
-        }
-
-        // Save the BufferedImage as a JPG file
-        File outputFile = new File("output.jpg");
-        try {
-            ImageIO.write(outputImage, "jpg", outputFile);
-            System.out.println("JPEG image created successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public int[][] generateMask() {
@@ -52,7 +26,7 @@ public class Laplacian {
         return laplacianMask;
     }
 
-    public void applyLaplacian() {
+    public int[][] applyLaplacian() {
         int[][] laplacianMask = generateMask();
         int[][] laplacianMaskedValues = new int[imageHeight][imageWidth];
         int min = Integer.MAX_VALUE;
@@ -82,7 +56,7 @@ public class Laplacian {
             }
         }
 
-        outputImageFile(laplacianMaskedValues);
+        return laplacianMaskedValues;
     }
     
 }

@@ -1,8 +1,5 @@
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+
 import java.util.Arrays;
-import javax.imageio.ImageIO;
 
 public class MedianFilter {
 
@@ -17,37 +14,15 @@ public class MedianFilter {
         this.imagePixelValues = imagePixelValues;
     }
     
-    public void outputImageFile(int[][] processedImagePixelValues) {
-        BufferedImage outputImage = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_BYTE_GRAY);
-
-        //set the pixel values in the BufferedImage
-        for (int y = 0; y < imageHeight; y++) {
-            for (int x = 0; x < imageWidth; x++) {
-                int pixelValue = processedImagePixelValues[y][x];
-                int grayColor = (pixelValue << 16) | (pixelValue << 8) | pixelValue;
-                outputImage.setRGB(x, y, grayColor);
-            }
-        }
-
-        //save the BufferedImage as a JPG file
-        File outputFile = new File("output.jpg");
-        try {
-            ImageIO.write(outputImage, "jpg", outputFile);
-            System.out.println("JPEG image created successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void applyMedianFilter(int[][] originalArr) {
+    public int[][] applyMedianFilter() {
 
         int[][] medianFilteredValues = new int[imageHeight][imageWidth];
         int topRow, bottomRow, leftMostColumn, rightMostColumn;
         int[] numbersArray;
         int median=0;
 
-        for (int y=0; y<originalArr.length; y++) {
-            for (int x=0; x<originalArr[0].length; x++) {
+        for (int y=0; y<imageHeight; y++) {
+            for (int x=0; x<imageWidth; x++) {
 
                 topRow = y-(maskSize/2);
                 bottomRow = y+(maskSize/2);
@@ -88,6 +63,6 @@ public class MedianFilter {
                 medianFilteredValues[y][x] = median;
             }
         }
-        outputImageFile(medianFilteredValues);
+        return medianFilteredValues;
     }
 }

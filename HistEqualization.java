@@ -1,8 +1,4 @@
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 
 public class HistEqualization {
 
@@ -17,29 +13,7 @@ public class HistEqualization {
         this.imagePixelValues = imagePixelValues;
     }
 
-    public void outputImageFile(int[][] processedImagePixelValues){
-        BufferedImage outputImage = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_BYTE_GRAY);
-
-        // set the pixel values in the BufferedImage
-        for (int y = 0; y < imageHeight; y++) {
-            for (int x = 0; x < imageWidth; x++) {
-                int newGrayValue = processedImagePixelValues[y][x];
-                int newPixel = (newGrayValue << 16) | (newGrayValue << 8) | newGrayValue;
-                outputImage.setRGB(x, y, newPixel);
-            }
-        }
-
-        //save the BufferedImage as a JPG file
-        File outputFile = new File("output.jpg");
-        try {
-            ImageIO.write(outputImage, "jpg", outputFile);
-            System.out.println("JPEG image created successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void globalEquilization(int[][] originalArr) {
+    public int[][] globalEquilization() {
         int[][] equalizedArray = new int[imageHeight][imageWidth];
         int[] histogram = new int[256];
         int[] equalizedHistogram = new int[256];
@@ -49,7 +23,7 @@ public class HistEqualization {
         //count number of pixels with a certain value
         for (int y=0; y<imageHeight; y++) {
             for (int x=0; x<imageWidth; x++) {
-                histogram[originalArr[y][x]]++;
+                histogram[imagePixelValues[y][x]]++;
             }
         }
 
@@ -63,7 +37,7 @@ public class HistEqualization {
         //apply equalized values to old image array
             for (int y=0; y<imageHeight; y++) {
                 for (int x=0; x<imageWidth; x++) {
-                    int grayscaleVal = originalArr[y][x];
+                    int grayscaleVal = imagePixelValues[y][x];
                     equalizedArray[y][x] = equalizedHistogram[grayscaleVal];
                 }
             }
@@ -71,27 +45,27 @@ public class HistEqualization {
             System.out.print(equalizedHistogram[i] + " ");
         }        
 
-        outputImageFile(equalizedArray);
+        return equalizedArray;
     }
 
-    public void localEqualization(int[][] originalArr) {
+    public int[][] localEqualization() {
         int[][] equalizedArray = new int[imageHeight][imageWidth];
         int[] neighborhood = new int[maskSize*maskSize];
         int[] equalizedNeighborhood = new int[256];
 
         int firstX=0, firstY=0, lastX=firstX+maskSize-1, lastY= firstY+maskSize-1;
 
-        while (lastY < originalArr.length){
+        while (lastY < imageHeight){
             firstX=0;
             lastX=firstX+maskSize-1;
 
-            while (lastX < originalArr[0].length) {
+            while (lastX < imageWidth) {
                 int neighborhoodIndex=0;
 
                 //store values of neighborhood in separate array for local processing
                 for (int y=firstY; y<=lastY; y++) {
                     for (int x=firstX; x<=lastX; x++) {
-                        neighborhood[neighborhoodIndex] = originalArr[y][x];
+                        neighborhood[neighborhoodIndex] = imagePixelValues[y][x];
                         neighborhoodIndex++;
                     }
                 }
@@ -100,7 +74,7 @@ public class HistEqualization {
                 int centralX = maskSize/2+firstX;
 
                 equalizedNeighborhood = equalize(neighborhood);
-                int centralVal = originalArr[centralY][centralX];
+                int centralVal = imagePixelValues[centralY][centralX];
                 equalizedArray[centralY][centralX] = equalizedNeighborhood[centralVal]; 
 
                 firstX++;
@@ -110,7 +84,7 @@ public class HistEqualization {
             lastY= firstY+maskSize-1;
         }        
 
-        outputImageFile(equalizedArray);
+        return equalizedArray;
     }
 
     public int[] equalize(int[] neighborhoodValues) {
