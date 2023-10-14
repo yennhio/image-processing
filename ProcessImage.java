@@ -37,11 +37,11 @@ public class ProcessImage {
         }
 
         SmoothingFilter imageToSmooth = new SmoothingFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
-        MedianFilter imageToMedianed = new MedianFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
+        MedianFilter imageToApplyMedianFilter = new MedianFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
         HistEqualization imageToEqualize = new HistEqualization(imagePixelValues, imageWidth, imageHeight, maskSize);
-        Laplacian imageLaplacian = new Laplacian(imagePixelValues, imageWidth, imageHeight, maskSize);
-        HighboostFilter imageHighboost = new HighboostFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
-        RemoveBitplanes imageBitPlane = new RemoveBitplanes(imagePixelValues, imageWidth, imageHeight, maskSize);
+        Laplacian imageToApplyLaplacian = new Laplacian(imagePixelValues, imageWidth, imageHeight, maskSize);
+        HighboostFilter imageToHighboost = new HighboostFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
+        RemoveBitplanes imageToRemoveBitPlaneFrom = new RemoveBitplanes(imagePixelValues, imageWidth, imageHeight, maskSize);
 
 
         // imageToSmooth.applyBoxFilter(imagePixelValues);
@@ -62,9 +62,15 @@ public class ProcessImage {
         // imageBitPlane.removeBitplanes();
         
 
-        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageHighboost.applyHighboostFilter());
+// ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToEqualize.localEqualization());
+//         ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyLaplacian.applyLaplacian());
+// ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToSmooth.applyBoxFilter());
+//         ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyMedianFilter.applyMedianFilter());
+// ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToHighboost.applyHighboostFilter());
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToRemoveBitPlaneFrom.removeBitplanes());
+
         scaledImage.outputImageFile();
-        
+
 
 
     }

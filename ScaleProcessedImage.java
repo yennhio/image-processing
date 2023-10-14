@@ -54,7 +54,7 @@ public class ScaleProcessedImage {
 
         for (int y=0; y<imageHeight; y++) {
             for (int x=0; x<imageWidth; x++) {
-                scaledValues[y][x] = (processedImagePixelValues[y][x] - oldMin) / ((oldMax - oldMin) / 255);
+                scaledValues[y][x] = (int)(((double)(processedImagePixelValues[y][x] - oldMin) / ((double)(oldMax - oldMin) / 255.0)));
             }
         }
         return scaledValues;

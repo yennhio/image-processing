@@ -41,10 +41,7 @@ public class HistEqualization {
                     equalizedArray[y][x] = equalizedHistogram[grayscaleVal];
                 }
             }
-        for (int i=200; i<220; i++) {
-            System.out.print(equalizedHistogram[i] + " ");
-        }        
-
+            
         return equalizedArray;
     }
 
