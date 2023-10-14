@@ -1,8 +1,4 @@
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
-import javax.imageio.ImageIO;
 import java.util.Scanner;
 
 public class HighboostFilter {
@@ -18,29 +14,6 @@ public class HighboostFilter {
         this.imagePixelValues = imagePixelValues;
     }
     
-    
-    public void outputImageFile(int[][] processedImagePixelValues) {
-        BufferedImage outputImage = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_BYTE_GRAY);
-
-        //set the pixel values in the BufferedImage
-        for (int y = 0; y < imageHeight; y++) {
-            for (int x = 0; x < imageWidth; x++) {
-                int pixelValue = processedImagePixelValues[y][x];
-                int grayColor = (pixelValue << 16) | (pixelValue << 8) | pixelValue;
-                outputImage.setRGB(x, y, grayColor);
-            }
-        }
-
-        //save the BufferedImage as a JPG file
-        File outputFile = new File("output.jpg");
-        try {
-            ImageIO.write(outputImage, "jpg", outputFile);
-            System.out.println("JPEG image created successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public int[][] applyMedianFilter(int[][] originalArr) {
 
         int[][] medianFilteredValues = new int[imageHeight][imageWidth];
@@ -93,7 +66,7 @@ public class HighboostFilter {
         return medianFilteredValues;
     }
 
-    public void applyHighboostFilter() {
+    public int[][] applyHighboostFilter() {
         int[][] smoothedImageValues = new int[imageHeight][imageWidth];
         smoothedImageValues = applyMedianFilter(imagePixelValues);
 
@@ -116,6 +89,6 @@ public class HighboostFilter {
             }
         }
 
-        outputImageFile(highBoostedValues);
+        return highBoostedValues;
     }
 }

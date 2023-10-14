@@ -36,21 +36,12 @@ public class ProcessImage {
             }
         }
 
-        // for (int y = 0; y < imageHeight; y++) {
-        //     for (int x = 0; x < imageWidth; x++) {
-        //         int pixel = img.getRGB(x, y);
-        //         int grayValue = (pixel >> 16) & 0xFF; // Extract the red component (assuming grayscale image)
-        //         imagePixelValues[y][x] = grayValue;
-        //     }
-        // }
-
         SmoothingFilter imageToSmooth = new SmoothingFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
         MedianFilter imageToMedianed = new MedianFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
         HistEqualization imageToEqualize = new HistEqualization(imagePixelValues, imageWidth, imageHeight, maskSize);
         Laplacian imageLaplacian = new Laplacian(imagePixelValues, imageWidth, imageHeight, maskSize);
         HighboostFilter imageHighboost = new HighboostFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
         RemoveBitplanes imageBitPlane = new RemoveBitplanes(imagePixelValues, imageWidth, imageHeight, maskSize);
-
 
 
         // imageToSmooth.applyBoxFilter(imagePixelValues);
@@ -69,8 +60,11 @@ public class ProcessImage {
         // imageLaplacian.applyLaplacian();
 
         // imageBitPlane.removeBitplanes();
-        imageHighboost.applyHighboostFilter();
+        
 
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageHighboost.applyHighboostFilter());
+        scaledImage.outputImageFile();
+        
 
 
     }
