@@ -1,7 +1,4 @@
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+
 
 public class SmoothingFilter {
 
@@ -16,29 +13,7 @@ public class SmoothingFilter {
         this.imagePixelValues = imagePixelValues;
     }
     
-    public void outputImageFile(int[][] processedImagePixelValues) {
-        BufferedImage outputImage = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_BYTE_GRAY);
-
-        //set the pixel values in the BufferedImage
-        for (int y = 0; y < imageHeight; y++) {
-            for (int x = 0; x < imageWidth; x++) {
-                int pixelValue = processedImagePixelValues[y][x];
-                int grayColor = (pixelValue << 16) | (pixelValue << 8) | pixelValue;
-                outputImage.setRGB(x, y, grayColor);
-            }
-        }
-
-        //save the BufferedImage as a JPG file
-        File outputFile = new File("output.jpg");
-        try {
-            ImageIO.write(outputImage, "jpg", outputFile);
-            System.out.println("JPEG image created successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void applyBoxFilter(int[][] originalArr) {
+    public int[][] applyBoxFilter() {
 
         int[][] smoothedImageValues = new int[imageHeight][imageWidth];
         int topRow, bottomRow, leftMostColumn, rightMostColumn;
@@ -57,18 +32,18 @@ public class SmoothingFilter {
                 if(topRow < 0)
                     topRow = 0;                    
                 
-                if (bottomRow >= originalArr.length)
-                    bottomRow = originalArr.length-1;
+                if (bottomRow >= imageHeight)
+                    bottomRow = imageHeight-1;
                 
                 if (leftMostColumn < 0)
                     leftMostColumn = 0;
 
-                if (rightMostColumn >= originalArr[0].length)
-                    rightMostColumn = originalArr[0].length-1;
+                if (rightMostColumn >= imageWidth)
+                    rightMostColumn = imageWidth-1;
 
                 for (int j=topRow; j<=bottomRow; j++) {
                     for (int i=leftMostColumn; i<= rightMostColumn; i++) {
-                        sum += originalArr[j][i];
+                        sum += imagePixelValues[j][i];
                         numberOfPixels++;
                     }
                 }
@@ -77,6 +52,6 @@ public class SmoothingFilter {
             }
         }
 
-        outputImageFile(smoothedImageValues);
+        return smoothedImageValues;
     }
 }
