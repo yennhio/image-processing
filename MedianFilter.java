@@ -30,14 +30,6 @@ public class MedianFilter {
                 rightMostColumn = x+(maskSize/2);
                 int numberOfPixels=0, currentIndex=0;
 
-                for (int j = topRow; j <= bottomRow; j++) {
-                    for (int i = leftMostColumn; i <= rightMostColumn; i++) {
-                        if (j >= 0 && j < imageHeight && i >= 0 && i < imageWidth) {
-                            numberOfPixels++;
-                        }
-                    }
-                }
-
                 numberOfPixels = (bottomRow-topRow+1)*(rightMostColumn-leftMostColumn+1);
                 
                 numbersArray = new int[numberOfPixels];

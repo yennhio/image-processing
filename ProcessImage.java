@@ -42,6 +42,14 @@ public class ProcessImage {
         Laplacian imageToApplyLaplacian = new Laplacian(imagePixelValues, imageWidth, imageHeight, maskSize);
         HighboostFilter imageToHighboost = new HighboostFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
         RemoveBitplanes imageToRemoveBitPlaneFrom = new RemoveBitplanes(imagePixelValues, imageWidth, imageHeight, maskSize);
+        ArithmeticMeanFilter imageToApplyMeanFilter = new ArithmeticMeanFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
+        GeometricMeanFilter imageToApplyGeometricMeanFilter = new GeometricMeanFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
+        HarmonicMeanFilter imageToApplyHarmonicMeanFilter = new HarmonicMeanFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
+        ContraharmonicMeanFilter imageToApplyContraharmonicMeanFilter = new ContraharmonicMeanFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
+        MaxFilter imageToApplyMaxFilter = new MaxFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
+        MinFilter imageToApplyMinFilter = new MinFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
+        MidpointFilter imageToApplyMidpointFilter = new MidpointFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
+        AlphaTrimmedFilter imageToApplyAlphaTrimmedFilter = new AlphaTrimmedFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
 
 
         // imageToSmooth.applyBoxFilter(imagePixelValues);
@@ -61,13 +69,24 @@ public class ProcessImage {
 
         // imageBitPlane.removeBitplanes();
         
+        // ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToEqualize.globalEquilization());
 
-// ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToEqualize.localEqualization());
+        //ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToEqualize.localEqualization());
 //         ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyLaplacian.applyLaplacian());
 // ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToSmooth.applyBoxFilter());
 //         ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyMedianFilter.applyMedianFilter());
 // ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToHighboost.applyHighboostFilter());
-        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToRemoveBitPlaneFrom.removeBitplanes());
+        // ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToRemoveBitPlaneFrom.removeBitplanes());
+
+        // ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyMeanFilter.applyMeanFilter());
+
+        // ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyGeometricMeanFilter.applyGeometricMeanFilter());
+        // ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyHarmonicMeanFilter.applyHarmonicMeanFilter());
+        // ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyContraharmonicMeanFilter.applyContraharmonicMeanFilter());
+        // ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyMaxFilter.applyMaxFilter());
+        // ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyMinFilter.applyMinFilter());
+        // ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyMidpointFilter.applyMidpointFilter());
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyAlphaTrimmedFilter.applyAlphaTrimmedMeanFilter());
 
         scaledImage.outputImageFile();
 

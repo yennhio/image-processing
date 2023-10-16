@@ -46,8 +46,6 @@ public class ScaleProcessedImage {
     }
 
     public int[][] scaleValues() {
-        // int oldMin = findOldMin();
-        // int oldMax = findOldMax();
         int oldMin = findNewMin();
         int oldMax = findNewMax();
         int[][] scaledValues = new int[imageHeight][imageWidth];
