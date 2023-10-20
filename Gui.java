@@ -24,7 +24,6 @@ public class Gui extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Create UI components
         JPanel leftPanel = new JPanel();
         originalImageLabel = new JLabel();
         leftPanel.add(originalImageLabel);
@@ -53,7 +52,6 @@ public class Gui extends JFrame {
         algorithmSelector.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle algorithm selection and update UI elements accordingly
                 String selectedAlgorithm = (String) algorithmSelector.getSelectedItem();
                 if ("Arithmetic Mean".equals(selectedAlgorithm)) {
                     arithmeticMean();
@@ -90,7 +88,6 @@ public class Gui extends JFrame {
     }
 
     private void obtainImageData() throws IOException {
-        //obtain pixel values and store them in array imagePixelValues[][]
         File file = new File(imageName);
         BufferedImage img = ImageIO.read(file);
         imageWidth = img.getWidth();
@@ -192,7 +189,6 @@ public class Gui extends JFrame {
             originalImageLabel.setIcon(new ImageIcon(img));
             obtainImageData();
 
-            // Apply image processing algorithm based on selected algorithm and update processedImageLabel
             String selectedAlgorithm = (String) algorithmSelector.getSelectedItem();
             if ("Arithmetic Mean".equals(selectedAlgorithm)) {
                 loadOutputImage();
