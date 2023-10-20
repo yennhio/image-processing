@@ -56,7 +56,7 @@ public class Gui extends JFrame {
                 // Handle algorithm selection and update UI elements accordingly
                 String selectedAlgorithm = (String) algorithmSelector.getSelectedItem();
                 if ("Arithmetic Mean".equals(selectedAlgorithm)) {
-                    artithmeticMean();
+                    arithmeticMean();
                 } else if ("Geometric Mean".equals(selectedAlgorithm)) {
                     geometricMean();
                 } else if ("Harmonic Mean".equals(selectedAlgorithm)) {
@@ -105,16 +105,9 @@ public class Gui extends JFrame {
             }
         }
 
-        SmoothingFilter imageToSmooth = new SmoothingFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
-        MedianFilter imageToApplyMedianFilter = new MedianFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
-        HistEqualization imageToEqualize = new HistEqualization(imagePixelValues, imageWidth, imageHeight, maskSize);
-        Laplacian imageToApplyLaplacian = new Laplacian(imagePixelValues, imageWidth, imageHeight, maskSize);
-        HighboostFilter imageToHighboost = new HighboostFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
-        RemoveBitplanes imageToRemoveBitPlaneFrom = new RemoveBitplanes(imagePixelValues, imageWidth, imageHeight, maskSize);
-
     }
 
-    private void artithmeticMean() {
+    private void arithmeticMean() {
         ArithmeticMeanFilter imageToApplyMeanFilter = new ArithmeticMeanFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
         ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyMeanFilter.applyMeanFilter());
 
