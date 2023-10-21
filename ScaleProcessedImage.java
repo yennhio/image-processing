@@ -8,7 +8,6 @@ public class ScaleProcessedImage {
     int imageWidth, imageHeight;
     int[][] imagePixelValues = new int[imageHeight][imageWidth];
     int[][] processedImagePixelValues = new int[imageHeight][imageWidth];
-
     
     public ScaleProcessedImage(int[][] imagePixelValues, int imageWidth, int imageHeight, int[][] processedImagePixelValues) {
         this.imageWidth = imageWidth;

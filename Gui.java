@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class Gui extends JFrame {
     private JTextField imagePathInput;
+    private JTextField maskSizeInput;
     private JComboBox<String> algorithmSelector;
     private JLabel originalImageLabel;
     private JLabel processedImageLabel;
@@ -37,7 +38,9 @@ public class Gui extends JFrame {
         mainPanel.add(leftPanel);
         mainPanel.add(rightPanel);
 
-        imagePathInput = new JTextField(30);
+        imagePathInput = new JTextField(20);
+        maskSizeInput = new JTextField(5);
+
         JButton loadButton = new JButton("Load Image");
         loadButton.addActionListener(new ActionListener() {
             @Override
@@ -78,6 +81,8 @@ public class Gui extends JFrame {
         controlPanel.setLayout(new FlowLayout());
         controlPanel.add(new JLabel("Image File Path:"));
         controlPanel.add(imagePathInput);
+        controlPanel.add(new JLabel("Square Mask Size:"));
+        controlPanel.add(maskSizeInput);
         controlPanel.add(loadButton);
         controlPanel.add(algorithmSelector);
 
@@ -188,6 +193,9 @@ public class Gui extends JFrame {
 
             originalImageLabel.setIcon(new ImageIcon(img));
             obtainImageData();
+
+            if (!maskSizeInput.getText().isEmpty())
+                maskSize = Integer.parseInt(maskSizeInput.getText());
 
             String selectedAlgorithm = (String) algorithmSelector.getSelectedItem();
             if ("Arithmetic Mean".equals(selectedAlgorithm)) {
