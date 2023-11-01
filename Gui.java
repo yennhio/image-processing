@@ -55,7 +55,8 @@ public class Gui extends JFrame {
                                                             "Harmonic Mean", "Contraharmonic Mean", "Max Filter", 
                                                             "Min Filter", "Midpoint Filter", "Alpha Trimmed", 
                                                             "Linear Interpolation", "Nearest Neighbor Interpolation",
-                                                            "Bilinear Interpolation"});
+                                                            "Bilinear Interpolation", "Laplacian", "Median Filter",
+                                                            "Local Equalization", "Global Equalization", "Highboost Filter"});
         algorithmSelector.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
