@@ -14,15 +14,15 @@ public class HighboostFilter {
         this.imagePixelValues = imagePixelValues;
     }
     
-    public int[][] applyMedianFilter(int[][] originalArr) {
+    public int[][] applyMedianFilter() {
 
         int[][] medianFilteredValues = new int[imageHeight][imageWidth];
         int topRow, bottomRow, leftMostColumn, rightMostColumn;
         int[] numbersArray;
         int median=0;
 
-        for (int y=0; y<originalArr.length; y++) {
-            for (int x=0; x<originalArr[0].length; x++) {
+        for (int y=0; y<imagePixelValues.length; y++) {
+            for (int x=0; x<imagePixelValues[0].length; x++) {
 
                 topRow = y-(maskSize/2);
                 bottomRow = y+(maskSize/2);
@@ -68,7 +68,7 @@ public class HighboostFilter {
 
     public int[][] applyHighboostFilter() {
         int[][] smoothedImageValues = new int[imageHeight][imageWidth];
-        smoothedImageValues = applyMedianFilter(imagePixelValues);
+        smoothedImageValues = applyMedianFilter();
 
         int[][] unsharpMasking = new int[imageHeight][imageWidth];
         

@@ -10,6 +10,7 @@ import java.io.IOException;
 public class Gui extends JFrame {
     private JTextField imagePathInput;
     private JTextField maskSizeInput;
+    private JTextField bitSizeInput;
     private JComboBox<String> algorithmSelector;
     private JLabel originalImageLabel;
     private JLabel processedImageLabel;
@@ -21,7 +22,7 @@ public class Gui extends JFrame {
     public Gui() throws IOException {
 
         setTitle("Image Processing App");
-        setSize(800, 400);
+        setSize(1300, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -40,6 +41,7 @@ public class Gui extends JFrame {
 
         imagePathInput = new JTextField(20);
         maskSizeInput = new JTextField(5);
+        bitSizeInput = new JTextField(5);
 
         JButton loadButton = new JButton("Load Image");
         loadButton.addActionListener(new ActionListener() {
@@ -51,7 +53,9 @@ public class Gui extends JFrame {
 
         algorithmSelector = new JComboBox<>(new String[]{"Select an Algorithm", "Arithmetic Mean", "Geometric Mean", 
                                                             "Harmonic Mean", "Contraharmonic Mean", "Max Filter", 
-                                                            "Min Filter", "Midpoint Filter", "Alpha Trimmed"});
+                                                            "Min Filter", "Midpoint Filter", "Alpha Trimmed", 
+                                                            "Linear Interpolation", "Nearest Neighbor Interpolation",
+                                                            "Bilinear Interpolation"});
         algorithmSelector.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,7 +76,23 @@ public class Gui extends JFrame {
                     midpointFilter();
                 }else if ("Alpha Trimmed".equals(selectedAlgorithm)) {
                     alphaTrimmed();
-                }
+                } else if ("Linear Interpolation".equals(selectedAlgorithm)) {
+                    linearInterpolation();
+                } else if ("Nearest Neighbor Interpolation".equals(selectedAlgorithm)) {
+                    nearestNeighbor();
+                } else if ("Bilinear Interpolation".equals(selectedAlgorithm)) {
+                    bilinearInterpolation();
+                } else if ("Median Filter".equals(selectedAlgorithm)) {
+                    medianFilter();
+                } else if ("Laplacian".equals(selectedAlgorithm)) {
+                    laplacian();
+                } else if ("Highboost".equals(selectedAlgorithm)) {
+                    highboostFilter();
+                } else if ("Local Equalization".equals(selectedAlgorithm)) {
+                    localHistEqualization();
+                } else if ("Global Equalization".equals(selectedAlgorithm)) {
+                    globalHistEqualization();
+                } 
             }
         });
         algorithmSelector.setSelectedIndex(0);
@@ -83,6 +103,8 @@ public class Gui extends JFrame {
         controlPanel.add(imagePathInput);
         controlPanel.add(new JLabel("Square Mask Size:"));
         controlPanel.add(maskSizeInput);
+        controlPanel.add(new JLabel("Bit Size:"));
+        controlPanel.add(bitSizeInput);
         controlPanel.add(loadButton);
         controlPanel.add(algorithmSelector);
 
@@ -107,6 +129,63 @@ public class Gui extends JFrame {
             }
         }
 
+    }
+
+    private void highboostFilter() {
+        HighboostFilter imageToApplyHighBoost = new HighboostFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyHighBoost.applyHighboostFilter());
+        
+        scaledImage.outputImageFile();
+    }
+
+    private void localHistEqualization() {
+        HistEqualization imageToEqualize = new HistEqualization(imagePixelValues, imageWidth, imageHeight, maskSize);
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToEqualize.localEqualization());
+        
+        scaledImage.outputImageFile();
+    }
+
+    private void globalHistEqualization() {
+        HistEqualization imageToEqualize = new HistEqualization(imagePixelValues, imageWidth, imageHeight, maskSize);
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToEqualize.globalEquilization());
+        
+        scaledImage.outputImageFile();
+    }
+
+    private void laplacian() {
+        Laplacian imageToApplyLaplacian = new Laplacian(imagePixelValues, imageWidth, imageHeight, maskSize);
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyLaplacian.applyLaplacian());
+        
+        scaledImage.outputImageFile();
+    }
+
+    private void medianFilter() {
+        MedianFilter imageToApplyMedianFilter = new MedianFilter(imagePixelValues, imageWidth, imageHeight, maskSize);
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyMedianFilter.applyMedianFilter());
+        
+        scaledImage.outputImageFile();
+    }
+
+
+    private void linearInterpolation() {
+        LinearInterpolation imageToInterpolateLinearly = new LinearInterpolation(imagePixelValues, imageWidth, imageHeight, maskSize);
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToInterpolateLinearly.linearInterpolation(imageWidth, imageHeight));
+        
+        scaledImage.outputImageFile();
+    }
+
+    private void nearestNeighbor() {
+        NearestNeighbor imageToApplyNearestNeighbor = new NearestNeighbor(imagePixelValues, imageWidth, imageHeight, maskSize);
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyNearestNeighbor.nearestNeighborInterpolation(imageHeight, imageWidth));
+        
+        scaledImage.outputImageFile();
+    }
+
+    private void bilinearInterpolation() {
+        BilinearInterpolation imageToApplyBilinearInterpolation = new BilinearInterpolation(imagePixelValues, imageWidth, imageHeight, maskSize);
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imageToApplyBilinearInterpolation.bilinearInterpolation(imageWidth, imageHeight));
+        
+        scaledImage.outputImageFile();
     }
 
     private void arithmeticMean() {
