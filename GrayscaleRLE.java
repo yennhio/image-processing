@@ -57,9 +57,30 @@ public class GrayscaleRLE {
         elapsed = end - start;
 
         System.out.println("Decoding time: " + elapsed + " milliseconds.");
+        System.out.println("Root mean squared error: " +  calculateRMSE(imagePixelValues, decompressedImg));
+
 
         return decompressedImg;
 
+    }
+
+
+    public double calculateRMSE(int[][] originalImage, int[][] decompressedImage) {
+        int height = originalImage.length;
+        int width = originalImage[0].length;
+    
+        double sumSquaredDiff = 0.0;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int diff = originalImage[i][j] - decompressedImage[i][j];
+                sumSquaredDiff += diff * diff;
+            }
+        }
+        double meanSquaredDiff = sumSquaredDiff / (height * width);
+    
+        double rmse = Math.sqrt(meanSquaredDiff);
+    
+        return rmse;
     }
 
 }
