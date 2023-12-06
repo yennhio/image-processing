@@ -56,7 +56,8 @@ public class Gui extends JFrame {
                                                             "Min Filter", "Midpoint Filter", "Alpha Trimmed", 
                                                             "Linear Interpolation", "Nearest Neighbor Interpolation",
                                                             "Bilinear Interpolation", "Laplacian", "Median Filter",
-                                                            "Local Equalization", "Global Equalization", "Highboost Filter"});
+                                                            "Local Equalization", "Global Equalization", "Highboost Filter",
+                                                            "Grayscale RLE", "Bitplane RLE", "Huffman"});
         algorithmSelector.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,7 +94,13 @@ public class Gui extends JFrame {
                     localHistEqualization();
                 } else if ("Global Equalization".equals(selectedAlgorithm)) {
                     globalHistEqualization();
-                } 
+                } else if ("Grayscale RLE".equals(selectedAlgorithm)) {
+                    grayscaleRLE();
+                } else if ("Bitplane RLE".equals(selectedAlgorithm)) {
+                    bitplaneRLE();
+                } else if ("Huffman".equals(selectedAlgorithm)) {
+                    huffman();
+                }
             }
         });
         algorithmSelector.setSelectedIndex(0);
@@ -130,6 +137,29 @@ public class Gui extends JFrame {
             }
         }
 
+    }
+
+    private void huffman() {
+        Huffman imgForHuffman = new Huffman(imagePixelValues, imageWidth, imageHeight);
+        String[][] encodedPic = new String[imageHeight][imageWidth];
+        encodedPic = imgForHuffman.compressImage();
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, imgForHuffman.decompressImage(encodedPic));
+
+        scaledImage.outputImageFile();
+    }
+
+    private void bitplaneRLE() {
+        BitplaneRLE encodeBitplaneRLE = new BitplaneRLE(imagePixelValues, imageWidth, imageHeight);
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, encodeBitplaneRLE.applyRLE());
+
+        scaledImage.outputImageFile();
+    }
+
+    private void grayscaleRLE() {
+        GrayscaleRLE encodeGrayscaleRLE = new GrayscaleRLE(imagePixelValues, imageWidth, imageHeight);
+        ScaleProcessedImage scaledImage = new ScaleProcessedImage(imagePixelValues, imageWidth, imageHeight, encodeGrayscaleRLE.applyRLE());
+
+        scaledImage.outputImageFile();
     }
 
     private void highboostFilter() {
